@@ -20,7 +20,7 @@ $(document).ready(function() {
     client.connect({}, function(frame) {
       client.debug("connected to Stomp");
       $('#connected').fadeIn();
-      client.subscribe('/message', function(message) {
+      client.subscribe('/topic/public', function(message) {
           if (message.body) {
             console.log(message.body);
             client.msgs(message.body);

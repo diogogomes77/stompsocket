@@ -16,7 +16,7 @@ public class WebController {
         SampleResponse response = new SampleResponse();
         response.setId(1);
         response.setMessage("Your name is "+name);
-        webSocket.convertAndSend("/message", "Hello " + name + "!");
+        webSocket.convertAndSend("/topic/public", "Hello " + name + "!");
         return response;
 
     }
@@ -27,7 +27,7 @@ public class WebController {
         response.setId(inputPayload.getId()*100);
         response.setMessage("Hello " + inputPayload.getName());
         response.setExtra("Some text");
-        webSocket.convertAndSend("/message", "Hello " + inputPayload.getName() + "!");
+        webSocket.convertAndSend("/topic/public", "Hello " + inputPayload.getName() + "!");
         return response;
     }
 }

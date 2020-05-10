@@ -3,15 +3,17 @@ version: "3.3"
 services:
 
   rabbitmq:
-    image: rabbitmq:3-management
+    build:
+      context: .
+      dockerfile: ./dockerfiles/rabbitmq_stomp/DockerFile
     hostname: rabbitmq # this way it always starts on the same hostname, preventing multiple log folders
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq/ # creates one logging folder only, maps the full folder
     ports:
-      - "5672:5672"
+      - "61613:61613"
     restart: on-failure
     healthcheck:
-      test: [ "CMD", "nc", "-z", "localhost", "5672" ]
+      test: [ "CMD", "nc", "-z", "localhost", "61613" ]
       timeout: 5s
       retries: 1
     logging:
