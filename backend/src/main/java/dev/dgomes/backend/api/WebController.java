@@ -30,4 +30,5 @@ public class WebController {
         webSocket.convertAndSend("/topic/public", "Hello " + inputPayload.getName() + "!");
         return response;
     }
+
 }
