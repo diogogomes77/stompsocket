@@ -17,10 +17,12 @@ public class WebsocketEventListener {
     @EventListener
     public void handleWebSocketConnectListener(SessionConnectedEvent event) {
         System.out.println("new socket connected");
+        webSocket.convertAndSend("/topic/public", "new client");
     }
 
     @EventListener
     public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
-        webSocket.convertAndSend("/message", "client leaving ");
+        System.out.println("socket disconnected");
+        webSocket.convertAndSend("/topic/public", "client leaving ");
     }
 }
