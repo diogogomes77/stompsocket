@@ -2,11 +2,27 @@ version: "3.3"
 
 services:
 
+  maven_build:
+    image: dgomes_websockets:0.1
+    build:
+      context: ./
+      dockerfile: ./dockerfiles/maven_build/DockerFile
+
+  spring_run:
+    build:
+      context: ./
+      dockerfile: ./dockerfiles/spring_run/DockerFile
+    command: java -jar dgomes_app.jar
+    restart: on-failure
+    ports:
+      - "8080:8080"
+    depends_on:
+      - rabbitmq
+
   rabbitmq:
     build:
       context: .
       dockerfile: ./dockerfiles/rabbitmq_stomp/DockerFile
-    hostname: rabbitmq # this way it always starts on the same hostname, preventing multiple log folders
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq/ # creates one logging folder only, maps the full folder
     ports:
@@ -24,5 +40,3 @@ services:
 
 volumes:
   rabbitmq_data:
-
-

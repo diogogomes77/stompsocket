@@ -20,7 +20,7 @@ public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.setApplicationDestinationPrefixes("/app")
                 //.enableSimpleBroker("/message")
                 .enableStompBrokerRelay("/topic")
-                .setRelayHost("localhost")
+                .setRelayHost("rabbitmq")
                 .setRelayPort(61613);
     }
 }
