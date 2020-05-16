@@ -24,7 +24,7 @@ services:
       context: .
       dockerfile: ./dockerfiles/rabbitmq_stomp/DockerFile
     volumes:
-      - rabbitmq_data:/var/lib/rabbitmq/ # creates one logging folder only, maps the full folder
+      - rabbitmq_data:/var/lib/rabbitmq/
     ports:
       - "61613:61613"
     restart: on-failure
