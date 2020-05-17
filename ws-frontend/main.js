@@ -7,6 +7,7 @@ $(document).ready(function() {
   //var login = $("#connect_login").val();
   //var passcode = $("#connect_passcode").val();
   destination = '/app/send/message';
+  $('#welcome').fadeIn();
 
   function welcomeApi(data){// pass your data in method
     var ajaxUrl = protHost + port + '/welcome'
@@ -18,22 +19,27 @@ $(document).ready(function() {
       data: JSON.stringify(data),// now data come in this function
       contentType: "application/json; charset=utf-8",
       crossDomain: true,
+      async: true,
       dataType: "json",
       success: function (data, status, jqXHR) {
-        alert("success" + data);
+        //alert("success" + data);
+        console.log(data);
         $('#welcome').fadeOut();
         ws = new SockJS(socketUrl);
         client = Stomp.over(ws);
+        setClient();
       },
       error: function (jqXHR, status) {
           // error handler
           console.log(jqXHR);
-          alert('fail' + status.code);
+          //alert('fail' + status.code);
       }
     });
   }
 
-  $('#send_name_form').submit(function() {
+  $('#send_name_form').submit(function(e) {
+    e.preventDefault();
+    console.log('send_name_form');
     var name = $('#send_name_form_input').val();
       if (name) {
         var data = {};
@@ -42,8 +48,9 @@ $(document).ready(function() {
       }
   });
 
-  if(client){
-
+  //if(client){
+  function setClient(){
+    console.log('setClient')
     client.debug = function(str) {
         $("#debug").append(str + "\n");
     };
@@ -61,9 +68,10 @@ $(document).ready(function() {
           }
       });
     });
+  }
 
-    $('#send_form').submit(function() {
-      
+    $('#send_form').submit(function(e) {
+      e.preventDefault();
         var text = $('#send_form_input').val();
         if (text) {
           client.send(destination, {}, text);
@@ -73,6 +81,6 @@ $(document).ready(function() {
       return false;
     });
 
-  }
+  
 
 });
