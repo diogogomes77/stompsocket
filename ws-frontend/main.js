@@ -1,14 +1,47 @@
 $(document).ready(function() {
-            
-    var client, destination;
-    
-    var url = 'http://localhost:8080/socket';
-    //var login = $("#connect_login").val();
-    //var passcode = $("#connect_passcode").val();
-    destination = '/app/send/message';
+  
+  var client, destination;
+  var protHost = 'http://localhost'
+  var port = ':8080'
+  var socketUrl = protHost + port + '/socket';
+  //var login = $("#connect_login").val();
+  //var passcode = $("#connect_passcode").val();
+  destination = '/app/send/message';
 
-    ws = new SockJS(url);
-    client = Stomp.over(ws);
+  function welcomeApi(data){// pass your data in method
+    console.log('ajax');
+    $.ajax({
+      
+      type: "POST",
+      url: protHost + port + '/welcome',
+      data: JSON.stringify(data),// now data come in this function
+      contentType: "application/json; charset=utf-8",
+      crossDomain: true,
+      dataType: "json",
+      success: function (data, status, jqXHR) {
+        alert("success" + data);
+        $('#welcome').fadeOut();
+        ws = new SockJS(socketUrl);
+        client = Stomp.over(ws);
+      },
+      error: function (jqXHR, status) {
+          // error handler
+          console.log(jqXHR);
+          alert('fail' + status.code);
+      }
+    });
+  }
+
+  $('#send_name_form').submit(function() {
+    var name = $('#send_name_form_input').val();
+      if (name) {
+        var data = {};
+        data['myname'] = name;
+        welcomeApi(data);
+      }
+  });
+
+  if(client){
 
     client.debug = function(str) {
         $("#debug").append(str + "\n");
@@ -29,12 +62,16 @@ $(document).ready(function() {
     });
 
     $('#send_form').submit(function() {
-    var text = $('#send_form_input').val();
-    if (text) {
-        client.send(destination, {}, text);
-        $('#send_form_input').val("");
-    }
-    return false;
+      
+        var text = $('#send_form_input').val();
+        if (text) {
+          client.send(destination, {}, text);
+          $('#send_form_input').val("");
+        }
+      
+      return false;
     });
 
-  });
+  }
+
+});

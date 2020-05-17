@@ -32,6 +32,17 @@
           <pre id="debug"></pre>
         </div>
         <div class="span6">
+          <div id="welcome" style="display:unset">
+            <div class="page-header">
+              <h2>Hi! What is your name?</h2>
+            </div>
+            <form class="well form-search" id='send_name_form'>
+              <input class="input-medium" id='send_name_form_input' placeholder="Type yout name here" class="span6"/>
+              <button class="btn" type="submit">Send</button>
+            </form>
+          </div>
+        </div>
+        <div class="span6">
           <div id="connected" style="display:none">
             <div class="page-header">
               <h2>Chat Room</h2>
@@ -47,7 +58,6 @@
         </div>
       </div>
     </div>
-
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>

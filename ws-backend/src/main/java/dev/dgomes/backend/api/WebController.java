@@ -21,7 +21,7 @@ public class WebController {
 
     }
 
-    @RequestMapping(value = "/test", method = RequestMethod.POST)
+    @RequestMapping(value = "/welcome", method = RequestMethod.POST)
     public PostResponse Test(@RequestBody PostRequest inputPayload) {
         PostResponse response = new PostResponse();
         response.setId(inputPayload.getId()*100);
