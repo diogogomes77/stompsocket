@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
+
+@CrossOrigin(origins = {"http://localhost", "http://127.0.0.1"})
 @RestController
 public class WebController {
 
@@ -28,6 +30,7 @@ public class WebController {
         response.setMessage("Hello " + inputPayload.getName());
         response.setExtra("Some text");
         webSocket.convertAndSend("/topic/public", "Hello " + inputPayload.getName() + "!");
+        System.out.println("Hello " + inputPayload.getName());
         return response;
     }
 

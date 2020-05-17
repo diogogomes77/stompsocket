@@ -1,7 +1,7 @@
 $(document).ready(function() {
   
   var client, destination;
-  var protHost = 'http://localhost'
+  var protHost = 'http://127.0.0.1'
   var port = ':8080'
   var socketUrl = protHost + port + '/socket';
   //var login = $("#connect_login").val();
@@ -9,11 +9,12 @@ $(document).ready(function() {
   destination = '/app/send/message';
 
   function welcomeApi(data){// pass your data in method
-    console.log('ajax');
+    var ajaxUrl = protHost + port + '/welcome'
+    console.log('ajax to ' + ajaxUrl);
     $.ajax({
       
       type: "POST",
-      url: protHost + port + '/welcome',
+      url: ajaxUrl,
       data: JSON.stringify(data),// now data come in this function
       contentType: "application/json; charset=utf-8",
       crossDomain: true,
@@ -36,7 +37,7 @@ $(document).ready(function() {
     var name = $('#send_name_form_input').val();
       if (name) {
         var data = {};
-        data['myname'] = name;
+        data['name'] = name;
         welcomeApi(data);
       }
   });
