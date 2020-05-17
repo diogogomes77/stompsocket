@@ -1,4 +1,4 @@
-package dev.dgomes.backend;
+package dev.dgomes.backend.ws;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

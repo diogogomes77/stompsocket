@@ -1,4 +1,4 @@
-package dev.dgomes.backend;
+package dev.dgomes.backend.ws;
 
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;

@@ -1,4 +1,4 @@
-package dev.dgomes.backend;
+package dev.dgomes.backend.ws;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
