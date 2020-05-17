@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>dev.dgomes</groupId>
-	<artifactId>backend</artifactId>
+	<artifactId>ws-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>backend</name>
+	<name>ws-backend</name>
 	<description>Experiencing Web-socket with STOMP on Spring Boot</description>
 
 	<properties>
