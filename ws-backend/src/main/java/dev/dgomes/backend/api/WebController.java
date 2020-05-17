@@ -1,8 +1,19 @@
 package dev.dgomes.backend.api;
 
+import dev.dgomes.backend.ws.model.WsMessage;
+import net.minidev.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
+import org.springframework.messaging.simp.user.SimpUser;
+import org.springframework.messaging.simp.user.SimpUserRegistry;
+import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Iterator;
+import java.util.Set;
+
+import static dev.dgomes.backend.ws.model.WsMessage.MessageType.JOIN;
 
 
 @CrossOrigin(origins = {"http://localhost", "http://127.0.0.1"})
@@ -12,25 +23,34 @@ public class WebController {
     @Autowired
     private SimpMessagingTemplate webSocket;
 
-    @RequestMapping("/sample")
-    public SampleResponse Sample(@RequestParam(value = "name",
-            defaultValue = "Robot") String name) {
-        SampleResponse response = new SampleResponse();
-        response.setId(1);
-        response.setMessage("Your name is "+name);
-        webSocket.convertAndSend("/topic/public", "Hello " + name + "!");
-        return response;
-
-    }
+    @Autowired private SimpUserRegistry simpUserRegistry;
 
     @RequestMapping(value = "/welcome", method = RequestMethod.POST)
     public PostResponse Test(@RequestBody PostRequest inputPayload) {
         PostResponse response = new PostResponse();
-        response.setId(inputPayload.getId()*100);
+
         response.setMessage("Hello " + inputPayload.getName());
-        response.setExtra("Some text");
-        webSocket.convertAndSend("/topic/public", "Hello " + inputPayload.getName() + "!");
-        System.out.println("Hello " + inputPayload.getName());
+
+        JSONArray users = new JSONArray();
+        Set<SimpUser> wsusers = simpUserRegistry.getUsers();
+        for (SimpUser user : wsusers) {
+            users.add(user.getName());
+        }
+
+        System.out.println("users: " + users.toString());
+        response.setExtra(users.toString());
+
+        String hiMessage = "Hi Everyone! I'm " + inputPayload.getName() + " \\o";
+
+        WsMessage message = new WsMessage();
+        message.setSender(inputPayload.getName());
+        message.setContent(hiMessage);
+        message.setRecipient("All");
+        message.setType(JOIN);
+
+        webSocket.convertAndSend("/topic/public", message);
+        System.out.println(hiMessage);
+
         return response;
     }
 

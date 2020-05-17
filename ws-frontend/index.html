@@ -27,14 +27,15 @@
         
         <div class="span4">
           <div class="page-header">
-            <h2>Debug Log</h2>
+            <h2>Other users</h2>
           </div>
-          <pre id="debug"></pre>
+          <pre id="users"></pre>
+          <pre id="debug" style="display:none"></pre>
         </div>
         <div class="span6">
           <div id="welcome" style="display:none">
             <div class="page-header">
-              <h2>Hi! What is your name?</h2>
+              <h2 id="whatsyourname">Hi! What is your name?</h2>
             </div>
             <form class="well form-search" id='send_name_form'>
               <input class="input-medium" id='send_name_form_input' placeholder="Type yout name here" class="span6"/>
@@ -43,7 +44,7 @@
           </div>
           <div id="connected" style="display:none">
             <div class="page-header">
-              <h2>Chat Room</h2>
+              <h2 id="messageboard">Messages board</h2>
             </div>
             <div id="messages">
             </div>
