@@ -7,6 +7,8 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
+import java.net.InetAddress;
+
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {
@@ -25,10 +27,26 @@ public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {
     }
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.setApplicationDestinationPrefixes("/app")
-                //.setUserDestinationPrefix("/topic/user/queue")
-                .enableStompBrokerRelay("/topic")
-                .setRelayHost("rabbitmq")
-                .setRelayPort(61613);
+        try{
+            InetAddress address = InetAddress.getByName("rabbitmq");
+            boolean reachable = address.isReachable(10000);
+
+            if (reachable){
+                registry.setApplicationDestinationPrefixes("/app")
+                        //.setUserDestinationPrefix("/topic/user/queue")
+                        .enableStompBrokerRelay("/topic")
+                        .setRelayHost("rabbitmq")
+                        .setRelayPort(61613);
+            } else{
+                // for running testes without rabbutmq
+                registry.setApplicationDestinationPrefixes("/app")
+                        .enableSimpleBroker("/topic");
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            registry.setApplicationDestinationPrefixes("/app")
+                    .enableSimpleBroker("/topic");
+        }
+
     }
 }
