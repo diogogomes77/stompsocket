@@ -136,9 +136,11 @@ $(document).ready(function() {
     msg = JSON.parse(body);
     console.log('msg.type= ' + msg.type)
     if (msg.type == "JOIN"){
-      console.log('msg.sender= ' + msg.sender)
-      users.push(msg.sender);
-      updateUsersList(users);
+      console.log('msg.sender= ' + msg.sender);
+      if (users.indexOf(msg.sender) == -1){
+        users.push(msg.sender);
+        updateUsersList(users);
+      }  
       //return;
     }else if (msg.type == "LEAVE"){
       var filtered = users.filter(
